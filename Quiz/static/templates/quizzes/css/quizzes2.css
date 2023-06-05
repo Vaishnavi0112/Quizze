@@ -1,0 +1,40 @@
+.first h1{
+    font-size: 50px;
+    padding-left: 10px;
+    display: inline;
+}
+
+.first p{
+        display: inline;
+        font-size: 18px;
+        padding-left: 800px;
+        font-family: 'Courier New', Courier, monospace;
+}
+
+.second{
+        background-color: #2A265F;
+        font-size: 25px;
+        padding-left: 15px;
+        margin-top: 10px;
+}
+.btn {
+        border: 2px solid !important;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        float: right;
+}
+
+.success {
+        border-color: #2A265F;
+        color: #2A265F;
+}
+      
+.success:hover {
+        background-color: #7175da;
+        color: white;
+}
+

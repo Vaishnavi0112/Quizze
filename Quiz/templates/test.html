@@ -1,0 +1,186 @@
+{% load static %}
+<html>
+    <head>
+        <title>Quiz</title>
+        <link rel="stylesheet" href="{% static 'templates/quizzes/css/quizzes2.css' %}"> 
+        <link rel="stylesheet" href="{% static 'templates/questions/css/new.css' %}"> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <link rel="icon" type="image/png" href="{% static '/templates/home/assets/images/favicon2.png' %}">
+        <script>
+            function hello(id, value) {
+                var x = "id_form-"+id.toString()+"-response";
+                document.getElementById(x).value = value;
+            }
+        </script>
+        
+        <script>
+                window.onbeforeunload = closingCode;
+                function closingCode(){
+                document.getElementById("submit").click();
+                return null; //<-- this prevents the dialog confirm box
+}
+        </script>
+        
+        <script type="text/javascript">
+            window.history.forward();
+            function noBack() {
+                window.history.forward();
+            }
+        </script>
+        <style>
+            .first h1{
+      font-size: 50px;
+      padding-left: 10px;
+      display: inline;
+  }
+  
+  .first p{
+          display: inline;
+          font-size: 18px;
+          padding-left: 800px;
+          font-family: 'Courier New', Courier, monospace;
+  }
+  
+  .second{
+          background-color: #2A265F;
+          font-size: 25px;
+          padding-left: 15px;
+          margin-top: 10px;
+  }
+        </style>
+        <script>
+            // Set the date we're counting down to
+            
+            countDownDate = {{time|safe}};
+            console.log(countDownDate);
+            // advance_time.setMinutes(time.getMinutes() + duration);
+            // console.log(advance_time);
+            // console.log(countDownDate);
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+            
+              // Get today's date and time
+              var now = new Date().getTime();
+                
+              // Find the distance between now and the count down date
+              var distance = countDownDate - now;
+                
+              // Time calculations for days, hours, minutes and seconds
+              var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if(hours.toString().length==1){
+                    hours = '0'+hours;
+                }
+                if(minutes.toString().length===1){
+                    minutes = '0'+minutes;
+                }
+                if(seconds.toString().length===1){
+                    seconds = '0'+seconds;
+                }
+              // Output the result in an element with id="demo"
+              document.getElementById("demo").innerHTML = hours + ":"
+              + minutes + ":" + seconds;
+                
+              // If the count down is over, write some text 
+              if (distance <= 0) {
+                clearInterval(x);
+                document.getElementById("submit").click();
+              }
+            }, 1000);
+            </script>
+        <style>
+            label.radio input:hover+span {
+                border-color: #2A265F;
+                background-color: #7175da;
+                color: #fff;
+            }
+            input[type='radio']:checked+span:after{
+                background-color: #2A265F;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <!-- <input type="text" id="time" value="16" name="time"> -->
+        <div class='first' style="color: #2A265F;">
+            <h1 style="color: #2A265F;">{{quiz_obj.quiz_name}}</h1>
+            <p>ALL THE BEST</p>
+        </div>
+        <div class='second'>
+            <div style="color: white;">Questions</div>
+        </div>
+        <div style="font-size: 50px; display: inline-block; width: 15vw; height: 10vh; position: fixed; border: 3px solid #2A265F;
+        border-radius: 10px; outline-offset: 30px;">
+        <p id="demo"></p></div>
+        <div class="container mt-5" style="display: inline-block; margin-left: 9vw;">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-10 col-lg-10">
+                    <div class="border">
+                        <!-- <div class="question bg-white p-3 border-bottom">
+                            <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                                <h4>MCQ Quiz</h4>
+                            </div>
+                        </div> -->
+                        <form method="POST">
+                            
+                        {% csrf_token %}
+                        {{form.management_form}}
+                        {% for i,j in form_ques %}
+                        
+                        <div class="question bg-white p-3 border-bottom">
+                            <div class="d-flex flex-row align-items-center question-title">
+                                <h3 style="color: #2A265F;">Q{{forloop.counter}}.&nbsp;</h3>
+                                <h3 style="color: #2A265F;">{{j.question}}</h5>
+                            </div>
+                            {% if j.opt1 %}
+                            <div class="ans ml-2">
+                                <label class="radio"> <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "A" style="background-color: #2A265F;"> <span style="width: 100%; text-align: left; padding-left: 0.5vw;">{{j.opt1}}</span>
+                                </label>
+                            </div>
+                            {% endif %}
+                            {% if j.opt2 %}
+                            <div class="ans ml-2">
+                                <label class="radio"> <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "B" style="background-color: #2A265F;"> <span style="width: 100%; text-align: left; padding-left: 0.5vw;">{{j.opt2}}</span>
+                                </label>
+                            </div>
+                            {% endif %}
+                            {% if j.opt3 %}
+                            <div class="ans ml-2">
+                                <label class="radio"> <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "C" style="background-color: #2A265F;"> <span style="width: 100%; text-align: left; padding-left: 0.5vw;">{{j.opt3}}</span>
+                                </label>
+                            </div>
+                            {% endif %}
+                            {% if j.opt4 %}
+                            <div class="ans ml-2">
+                                <label class="radio"> <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "D" style="background-color: #2A265F;"> <span style="width: 100%; text-align: left; padding-left: 0.5vw;">{{j.opt4}}</span>
+                                </label>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- <div class="ans ml-2"></div>
+                        <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "A">{{j.opt1}}
+                        <br>
+                        <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "B">{{j.opt2}}
+                        <br>
+                        <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "C">{{j.opt3}}
+                        <br>
+                        <input type="radio" name = {{forloop.counter0}} onclick = "hello(this.id, this.value)" id={{forloop.counter0}} value = "D">{{j.opt4}}
+                        <br> -->
+                        {{i.response.as_hidden}}
+                        
+                        {% endfor %}
+                        
+                        <button id="submit" type="submit" class="btn btn-primary btn-sm" style="margin-right: 29vw; background-color: #2A265F; width: 7vw; font-size: medium;">Submit</button>
+                        
+                        <br>
+                        </form>
+    </body>
+</html>
